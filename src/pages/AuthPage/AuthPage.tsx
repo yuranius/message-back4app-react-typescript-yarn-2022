@@ -1,6 +1,7 @@
 import React from "react"
-import { Button, Card, Container, Form} from "react-bootstrap";
+
 import AlertForm from "../../components/Alert";
+import {Button, Card, Container, Form} from "react-bootstrap";
 
 
 type AuthPageProps = {
