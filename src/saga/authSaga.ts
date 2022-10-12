@@ -18,12 +18,17 @@ import {AsyncSetAuthUserActionType, AsyncSetRegisterUserActionType} from "../typ
 function* setAuthUserWorker({payload}: AsyncSetAuthUserActionType) {
     try{
         yield put(setLoadingProcessAction(true))
-        const {token, userId, userLogin, avatar, message} = yield loginAPI.login(payload.email, payload.password)
-        const user = {token, userId, userLogin, avatar}
+        //const {token, userId, userLogin, avatar, message} = yield loginAPI.login(payload.email, payload.password)
+        // @ts-ignore
+        const {message,code} = yield loginAPI.login(payload.email, payload.password)
+        
+        //const user = {token, userId, userLogin, avatar}
         yield put(setLoadingProcessAction(false))
-        yield localStorage.setItem (TOKEN_DATA, JSON.stringify({ token }))
-        yield localStorage.setItem (USER_DATA, JSON.stringify({ userId, userLogin, avatar }))
-        yield put(setAuthUser(user))
+
+
+        
+        
+        //yield put(setAuthUser(user))
         yield put(setShowMessageAction({statusMessage:0, message}))
     } catch (error:any) {
         yield put(setLoadingProcessAction(false))
@@ -35,9 +40,17 @@ function* setAuthUserWorker({payload}: AsyncSetAuthUserActionType) {
 function* setRegisterUserWorker({payload}: AsyncSetRegisterUserActionType) {
     try {
         yield put(setLoadingProcessAction(true))
-        const {message} = yield loginAPI.register(payload.email, payload.password)
+        //const {message} = yield loginAPI.register(payload.email, payload.password)
+
+        // @ts-ignore
+        const test = yield loginAPI.register(payload.email, payload.password)
+        console.log( '📌:',test,'🌴 🏁')
+
+        //const user = localStorage.setItem('')
+
+
         yield put(setLoadingProcessAction(false))
-        yield put (setShowMessageAction({statusMessage:0, message}))
+        yield put (setShowMessageAction({statusMessage:0, message: test.message}))
     } catch (error: any) {
         yield put(setLoadingProcessAction(false))
         yield put (setShowMessageAction({statusMessage: 2, message:error.response.data.message}))

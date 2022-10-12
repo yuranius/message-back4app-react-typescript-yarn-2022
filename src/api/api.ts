@@ -139,36 +139,51 @@ type User = {
 export const loginAPI = {
     async register(email: string, password: string) {
 
+        let loginFromEmail = (email.split('@')[0])
+
         let user = new Parse.User();
-        user.set("username", "my name");
+				user.set('username', loginFromEmail)
         user.set("password", password);
         user.set("email", email);
 
         // other fields can be set just like with Parse.Object
 
 
-        user.signUp().then(function(user:any) {
-            console.log('User created successful with name: ' + user.get("username") + ' and email: ' + user.get("email"));
+
+        let response = await user.signUp().then(  (user:any) => {
+            return { userLogin:user.get("username"), avatar: user.get("avatar"), message: 'Пользователь ' + user.get("username") + ' зарегстрирован. На Вашу почту отправлено письмо с сылкой для подтверждения email.', userId:user.id, role: user.get("role")}
         }).catch(function(error:any){
-            console.log("Error: " + error.code + " " + error.message);
+            return test = error.message
         });
-
-
+        return response
     },
+
+
     async login(email: string, password: string) {
         try {
-            const loggedInUser = await Parse.User.logIn(email, password);
-            // logIn returns the corresponding ParseUser object
-            alert(
-                `Success! User ${loggedInUser.get(
-                    'username'
-                )} has successfully signed in!`
+            const loggedInUser = await Parse.User.logIn(email, password).then( (response:any) => console.log( '📌:',JSON.stringify(response.se),'🌴 🏁')
             );
+            // logIn returns the corresponding ParseUser object
+           
+            
+            console.log( '📌:',loggedInUser,'🌴 🏁')
+            
+            // alert(
+            //     `Success! User ${loggedInUser.get(
+            //         'username'
+            //     )} has successfully signed in!`
+            // );
             return true;
         } catch (error: any) {
-            // Error can be caused by wrong parameters or lack of Internet connection
-            alert(`Error! ${error.message}`);
-            return false;
+            const errorCode = Number(JSON.stringify(error.code));
+
+            if (errorCode === 101) {
+                return {message: 'Неправельный логин или пароль'}
+            } else if (errorCode === 205) {
+                return {message: 'Email пользователья не подвержден'}
+            }
+            
+            return {message: error.message};
         }
     }
 }
