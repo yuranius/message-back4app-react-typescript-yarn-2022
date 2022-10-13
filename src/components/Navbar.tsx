@@ -1,13 +1,11 @@
 import React from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {AsyncLogoutUserAction} from "../store/authReducer";
-import {getMessagesUserAction, getUsersWhoHaveMessagesAction, setCurrentUserAction} from "../store/messageReducer";
-import {deleteShowMessageAction} from "../store/overReducer";
 import {Container, Nav, Navbar} from "react-bootstrap";
 import {Link} from "react-router-dom";
-import {API_URL} from "../config";
 import {stateUserType} from "../types/stateTypes";
 import {ILink} from "../types/pageTypes";
+import {AsyncLogoutUserAction} from "../store/authReducer";
+import {deleteShowMessageAction} from "../store/overReducer";
 
 
 export const NavbarComponent:React.FunctionComponent = () => {
@@ -21,17 +19,11 @@ export const NavbarComponent:React.FunctionComponent = () => {
     }
 
 
-
-
-
     const logoutHandler = (event:eventType, id:number):void => {
         if (id === 4) {
             event.preventDefault()
             dispatch(AsyncLogoutUserAction())
-            dispatch(setCurrentUserAction({id: null, login: null, avatar: null, content:null, created_at: null,}))
-            dispatch(getUsersWhoHaveMessagesAction([{ id: null, content: null,login: null, avatar: null, created_at: null}]))
             dispatch(deleteShowMessageAction())
-            dispatch(getMessagesUserAction([{id: null, content: null, login: null, created_at: null, user_from_id: null}]))
         }
     }
 
@@ -55,7 +47,7 @@ export const NavbarComponent:React.FunctionComponent = () => {
             <Navbar bg="primary" variant="dark">
                 <Container>
                     <Navbar.Brand as={Link} to='/profile'>
-                        <img src={!!avatar ? `${API_URL + avatar}` : defaultAvatar} alt="аватарка"
+                        <img src={!!avatar ? avatar : defaultAvatar} alt="аватарка"
                              className="navbar-ava mx-3"/>
                         {userLogin ? userLogin : 'Логин не определен'}
                     </Navbar.Brand>

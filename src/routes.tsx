@@ -15,12 +15,12 @@ export const useRoutes = (token:string) => {
 	if (!!token) {
 		return (
 			<Routes>
-				<Route path='/' element={<MessagesContainer />} />
+				{/*<Route path='/' element={<MessagesContainer />} />*/}
 				<Route path="/users" element={ <UsersContainer />} />
 				<Route path="/friends" element={<FriendsContainer />} />
 				<Route path="/messages" element={<MessagesContainer />} />
 				<Route path="/profile" element={<ProfilePageContainer />} />
-				<Route path="*" element={<Navigate to="/" />} />
+				<Route path="*" element={<Navigate to="/users" />} />
 			</Routes>
 		)
 	}

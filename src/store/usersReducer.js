@@ -55,7 +55,7 @@ export const findUsers = (payload) => ({type: FIND_USERS, payload})
 export const AsyncFindUsersAction = (payload) => ({type: ASYNC_FIND_USERS, payload})
 
 export const getAllUsers = (payload) => ({type: GET_ALL_USERS, payload})
-export const AsyncGetAllUsersAction = (payload) => ({type: ASYNC_GET_ALL_USERS, payload})
+export const AsyncGetAllUsersAction = () => ({type: ASYNC_GET_ALL_USERS})
 
 export const addFriend = (payload) => ({type:ADD_FRIEND, payload})
 export const AsyncAddFriendAction = (payload) => ({type: ASYNC_ADD_FRIEND,payload})
