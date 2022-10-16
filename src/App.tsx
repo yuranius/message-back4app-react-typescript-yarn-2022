@@ -12,9 +12,7 @@ import Loader from "./components/loader";
 
 
 function App():JSX.Element {
-
   const { token  } = useSelector((state:stateUserType) => state.user)
-  const { loading } = useSelector((state:stateOverType) => state.over)
   const dispatch = useDispatch()
   const routes = useRoutes(token);
 
@@ -25,10 +23,8 @@ function App():JSX.Element {
 
   return (
       <Router>
-
         { !!token && <NavbarComponent /> }
-        {!loading ? <div className="container">{routes}</div> : <Loader />}
-
+        <div className="container">{routes}</div>
       </Router>
   );
 }

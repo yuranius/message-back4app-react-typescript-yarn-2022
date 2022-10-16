@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react'
 import {ProfilePage} from './ProfilePage'
 import {useDispatch, useSelector} from "react-redux";
-import {AsyncChangeAvatarUserAction, AsyncChangeLoginUserAction} from "../../store/profileReducer";
 import {deleteShowMessageAction} from "../../store/overReducer";
 import {useShowMessage} from "../../hooks/message.hook";
 import {useToggleShowAlert} from "../../hooks/toggleShowAlert.hook";
 import {stateOverType, stateUserType} from "../../types/stateTypes";
+import {AsyncChangeAvatarUserAction, AsyncChangeLoginUserAction} from "../../store/authReducer";
 
 
 let input = ''
@@ -68,21 +68,23 @@ export const ProfilePageContainer = () => {
 
 
     const saveHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+        {loading && setShow(false)}
         event.preventDefault()
         showAlert('inputText')
 
         if (userId && input) {
-            dispatch(AsyncChangeLoginUserAction({userId, userLogin: input}))
-            showSuccess(message)
-            if (input) {
-                setInput('')
-            }
+            dispatch(AsyncChangeLoginUserAction({updatedLogin: input}))
+            //showSuccess(message)
+            setInput('')
         } else if (!input) {
             showWarning('Поле не может быть пустым')
         } else {
             showDanger('Ошибка обработки запроса к базе данных')
         }
     }
+
+    console.log( '📌:',input,'🌴 🏁')
+
 
 
     const saveAvatarHandler = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -93,11 +95,7 @@ export const ProfilePageContainer = () => {
             return showWarning('Выберите файл')
         }
         try {
-            let formData = new FormData();
-            // @ts-ignore
-            formData.append("userId", userId);
-            formData.append("img", file);
-            dispatch(AsyncChangeAvatarUserAction(formData));
+            dispatch(AsyncChangeAvatarUserAction({updatedAvatar: file}));
             if (statusMessage === 0) {
                 showSuccess(message)
             } else if (statusMessage === 1) {
@@ -121,7 +119,7 @@ export const ProfilePageContainer = () => {
         } else {
             showDanger(message)
         }
-    }, [statusMessage])
+    }, [statusMessage,message])
 
 
     return <ProfilePage
@@ -136,6 +134,7 @@ export const ProfilePageContainer = () => {
         setShow={setShow}
         show={show}
         variant={variant}
+        input={input}
         inputFileValue={inputFileValue}
         showAlertInputFile={showAlertInputFile}
         showAlertInputText={showAlertInputText}

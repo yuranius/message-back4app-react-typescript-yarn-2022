@@ -26,10 +26,10 @@ function* getFriendsWorker({payload}:AsyncGetFriendsActionType) {
 function* delFriendWorker({payload}:AsyncDelFriendActionType){
     try {
         yield put(setLoadingProcessAction(true))
-        const {friendId, message} = yield friendsAPI.deleteFriend(payload)
+        //const {friendId, message} = yield friendsAPI.deleteFriend(payload)
         yield put(setLoadingProcessAction(false))
-        yield put (delFriendAction(friendId))
-        yield put (setShowMessageAction({statusMessage: 0, message}))
+        //yield put (delFriendAction(friendId))
+        //yield put (setShowMessageAction({statusMessage: 0, message}))
     } catch (error:any) {
         yield put(setLoadingProcessAction(false))
         yield put(setShowMessageAction({statusMessage:2, message: error.response.data.massage}))

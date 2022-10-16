@@ -129,6 +129,7 @@ export type FoundUsersItemTypes = {
     avatar: string
     defaultAvatar: string
     sendMessage: ({}:FoundUsersItemTypes) => void
+    loading:boolean
 }
 
 //--------------= Profile =---------- //
@@ -148,5 +149,5 @@ export type ProfilePropsTypes = {
     preview: string,
     showAlertInputFile: boolean,
     saveAvatarHandler: (event: any) => void,
-    //login:string
+    input:string
 }

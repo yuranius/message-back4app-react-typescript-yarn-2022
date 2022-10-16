@@ -1,7 +1,13 @@
 //--------------= FriendsReducer =---------- //
 
 import {ASYNC_DEL_FRIEND, ASYNC_GET_FRIENDS, DEL_FRIEND, GET_FRIENDS} from "../store/friendsReducer";
-import {ASYNC_AUTH_USER, ASYNC_REGISTER_USER, AUTH_USER, LOGOUT_USER} from "../store/authReducer";
+import {
+    ASYNC_AUTH_USER, ASYNC_CHANGE_AVATAR_USER,
+    ASYNC_CHANGE_LOGIN_USER,
+    ASYNC_REGISTER_USER,
+    AUTH_USER, CHANGE_AVATAR_USER, CHANGE_LOGIN_USER, changeAvatarUser, changeLoginUser,
+    LOGOUT_USER
+} from "../store/authReducer";
 import {CurrentUserType} from "./stateTypes";
 import {
     ADD_MESSAGE,
@@ -53,16 +59,44 @@ export type AsyncSetRegisterUserActionType = {
     payload: AuthUser
 }
 
-
-export type AuthUser = {
-    email: string,
-    password: string,
+export type changeLoginUserType = {
+    type: typeof CHANGE_LOGIN_USER
+    payload: string
 }
 
+export type AsyncChangeLoginUserActionType = {
+    type: typeof ASYNC_CHANGE_LOGIN_USER
+    payload: ChangeLogin
+}
+
+export type changeAvatarUserType = {
+    type: typeof CHANGE_AVATAR_USER
+    payload: ChangeAvatar
+}
+
+export type AsyncChangeAvatarUserActionType = {
+    type: typeof ASYNC_CHANGE_AVATAR_USER
+    payload: ChangeAvatar
+}
 
 export type LogoutUserType = {
     type: typeof LOGOUT_USER
     payload: LogoutUser
+}
+
+
+export type ChangeAvatar = {
+    updatedAvatar: string
+}
+
+export type ChangeLogin = {
+    updatedLogin: string
+}
+
+
+export type AuthUser = {
+    email: string,
+    password: string,
 }
 
 export type LogoutUser = {
@@ -71,7 +105,7 @@ export type LogoutUser = {
 }
 
 
-export type AuthReducerActionsType = SetAuthUserActionType | LogoutUserType
+export type AuthReducerActionsType = SetAuthUserActionType | LogoutUserType | changeAvatarUserType | changeLoginUserType
 
 //--------------= MessageReducer =---------- //
 

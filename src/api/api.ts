@@ -37,29 +37,7 @@ type FindUsers = {
 
 
 
-export type AddFriend = {
-	userId: number,
-	friendId: number,
-	test: string
-}
 
-export const friendsAPI = {
-	addFriend(payload: AddFriend) {
-		// return instance.post(`/api/friend/add`, { payload}).then((response) => {
-		//     return response.data;
-		// });
-	},
-	deleteFriend(payload: {}) {
-		// return instance.post(`/api/friend/delete`, {payload}).then((response) => {
-		//     return response.data;
-		// });
-	},
-	getFriends(payload: number) {
-		// return instance.get( `api/find/friends/?userId=${payload}`, {}).then((response) => {
-		//     return response.data
-		// })
-	}
-}
 
 type GetMessages = {
 	userId: number
@@ -126,19 +104,75 @@ export const loginAPI = {
 
 	logout() {
 		return Parse.User.logOut()
-	}
+	},
+
+	testChangeLogin(updateLogin:string) {
+		return Parse.User.current().set('username', updateLogin).save()
+	},
 }
 
 export const usersAPI = {
-	findAllUsers() {
-			return new Parse.Query('User').find()
+	findAllUsers(pageSize:number, pageStartNumber:number) {
+			return new Parse.Query('User').limit(pageSize).skip(pageStartNumber).find()
 	},
 
-
-	findUsers(payload: FindUsers) {
-		// return instance.get(`/api/find/users/?userId=${payload.userId}&value=${payload.value}&page=${payload.pageNumber}&limit=${payload.pageSize}`, {}).then((response) => {
-		//     return response.data;
-		// });
+	findUsers(pageSize:number, pageStartNumber:number, value:string) {
+		return new Parse.Query('User').matches('username', value , 'i').limit(pageSize).skip(pageStartNumber).find()
 	},
+
+	getUser() {
+		return Parse.User.current()
+	},
+
+	findFriendsOne(user:{}) {
+		return new Parse.Query('Friends').equalTo('FriendOne', user).find()
+	},
+
+	findFriendsTwo(user:{}) {
+		return new Parse.Query('Friends').equalTo('FriendTwo', user).find();
+	},
+
+	getAllUsers() {
+		return new Parse.Query('User').find()
+	},
+	getAllFindUsers(value: string) {
+		return new Parse.Query('User').matches('username', value , 'i').find()
+	},
+}
+
+export type AddFriend = {
+	user: {},
+	friend: {},
+}
+
+export type FindFriend = {
+	user: {},
+	friend: {},
+	firstField: string,
+	secondField:string
+}
+
+export const friendsAPI = {
+	addFriend(payload: AddFriend) {
+		return new Parse.Object('Friends').set('FriendOne', payload.user).set('FriendTwo', payload.friend).set('Status', false).save();
+	},
+
+	getFriend(friendId:string) {
+		return new Parse.Query('User').equalTo('objectId', friendId).first();
+	},
+
+	findDataAboutFriends ({user, friend, firstField, secondField}:FindFriend) {
+		return new Parse.Query('Friends').equalTo(firstField, user).equalTo(secondField, friend).find();
+	},
+
+	deleteFriend(payload: string) {
+		return new Parse.Object('Friends').set('objectId', payload).destroy();
+	},
+
+	getFriends(payload: number) {
+		// return instance.get( `api/find/friends/?userId=${payload}`, {}).then((response) => {
+		//     return response.data
+		// })
+	}
 }
 

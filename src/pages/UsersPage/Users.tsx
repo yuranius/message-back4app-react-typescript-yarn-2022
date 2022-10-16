@@ -28,6 +28,7 @@ export const FoundUsers:React.FC<UsersPropsTypes> = (props) => {
             avatar={u.avatar}
             defaultAvatar={props.defaultAvatar}
             sendMessage={props.sendMessage}
+            loading={props.loading}
         />))
 
     return (
@@ -49,7 +50,7 @@ export const FoundUsers:React.FC<UsersPropsTypes> = (props) => {
 
                 {props.users &&
                     <ListGroup as="ul">
-                        {!props.loading ? collocuterElements : <Loader />}
+                        {(!props.loading || !!props.users.length)? collocuterElements : <Loader />}
                     </ListGroup>
 
                 }

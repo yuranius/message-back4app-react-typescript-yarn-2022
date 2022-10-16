@@ -16,6 +16,7 @@ export const ProfilePage:React.FC<ProfilePropsTypes> = (props) => {
                         type="text"
                         onChange={props.inputHandler}
                         placeholder={props.userLogin}
+                        value={props.input}
                     />
                     <Form.Control.Feedback type='invalid'>{props.message}</Form.Control.Feedback>
                     {/*<Form.Control.Feedback type='valid'>Looks good!</Form.Control.Feedback>*/}

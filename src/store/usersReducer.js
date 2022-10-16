@@ -1,6 +1,3 @@
-export const  ASYNC_FIND_USERS = 'ASYNC_FIND_USERS'
-const FIND_USERS = 'FIND_USERS'
-
 export const  ASYNC_GET_ALL_USERS = 'ASYNC_GET_ALL_USERS'
 const GET_ALL_USERS = 'GET_ALL_USERS'
 
@@ -25,8 +22,6 @@ export const usersReducer = (state = defaultState, action) => {
        switch (action.type) {
            case GET_ALL_USERS:
                return {...state, ...action.payload};
-           case FIND_USERS:
-               return {...state, ...action.payload};
            case ADD_FRIEND:
                return {...state,
                    users: state.users.map( c => {
@@ -50,12 +45,8 @@ export const usersReducer = (state = defaultState, action) => {
 };
 
 
-
-export const findUsers = (payload) => ({type: FIND_USERS, payload})
-export const AsyncFindUsersAction = (payload) => ({type: ASYNC_FIND_USERS, payload})
-
 export const getAllUsers = (payload) => ({type: GET_ALL_USERS, payload})
-export const AsyncGetAllUsersAction = () => ({type: ASYNC_GET_ALL_USERS})
+export const AsyncGetAllUsersAction = (payload) => ({type: ASYNC_GET_ALL_USERS, payload})
 
 export const addFriend = (payload) => ({type:ADD_FRIEND, payload})
 export const AsyncAddFriendAction = (payload) => ({type: ASYNC_ADD_FRIEND,payload})

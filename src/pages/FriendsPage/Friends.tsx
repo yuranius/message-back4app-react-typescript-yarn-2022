@@ -21,6 +21,7 @@ export const Friends:React.FC<FriendsPropsTypes> = (props) => {
 			avatar={friend.avatar}
 			sendMessage={props.sendMessage}
 			addFriend={addFriend}
+			loading={props.loading}
 		/>))
 
 	return (

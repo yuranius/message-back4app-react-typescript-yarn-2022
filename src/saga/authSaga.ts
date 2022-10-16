@@ -1,16 +1,21 @@
 import {put, takeEvery} from 'redux-saga/effects'
 
 import {
-	ASYNC_AUTH_USER,
+	ASYNC_AUTH_USER, ASYNC_CHANGE_AVATAR_USER, ASYNC_CHANGE_LOGIN_USER,
 	ASYNC_LOGOUT_USER_ACTION,
 	ASYNC_REGISTER_USER,
-	ASYNC_SET_CHECK_LOGIN_USER_ACTION,
+	ASYNC_SET_CHECK_LOGIN_USER_ACTION, changeLoginUser,
 	logoutUser,
 	setAuthUser
 } from "../store/authReducer"
-import {loginAPI} from "../api/api";
+import {loginAPI, usersAPI} from "../api/api";
 import {setLoadingProcessAction, setShowMessageAction} from "../store/overReducer";
-import {AsyncSetAuthUserActionType, AsyncSetRegisterUserActionType} from "../types/reducersType";
+import {
+	AsyncChangeAvatarUserActionType,
+	AsyncChangeLoginUserActionType,
+	AsyncSetAuthUserActionType,
+	AsyncSetRegisterUserActionType
+} from "../types/reducersType";
 
 
 interface IUser {
@@ -90,7 +95,7 @@ function* checkLoginUserWorker() {
 		yield put(setAuthUser(user))
 	} catch (error: any) {
 		yield put(setLoadingProcessAction(false))
-		console.log('📌:', error.message, '🌴 🏁')
+		console.error('📌:ERROR', error.message)
 	}
 }
 
@@ -99,10 +104,45 @@ function* logoutUserWorker() {
 	yield put(logoutUser({userId: null, token: null}))
 }
 
+function* setChangeLoginUserWorker({payload}:AsyncChangeLoginUserActionType) {
+	try {
+		yield put(setLoadingProcessAction(true))
+		yield loginAPI.testChangeLogin(payload.updatedLogin)
+		yield put(changeLoginUser(payload.updatedLogin))
+		yield put(setShowMessageAction({statusMessage: 0, message: 'Имя пользователя изменено на ' + payload.updatedLogin}))
+		yield put(setLoadingProcessAction(false))
+	} catch (error:any) {
+		yield put(setLoadingProcessAction(false))
+		if (error.code === 203 || error.code === 202) {
+			yield put(setShowMessageAction({statusMessage: 2, message: 'Имя уже занято... Выберите другое'}))
+		} else {
+			yield put(setShowMessageAction({statusMessage: 2, message: error.message}))
+		}
+	}
+	
+}
+
+function* setChangeAvatarUserWorker({payload}:AsyncChangeAvatarUserActionType) {
+	try {
+		yield put(setLoadingProcessAction(true))
+	console.log( '📌:',payload,'🌴 🏁')
+
+		yield put(setLoadingProcessAction(false))
+	} catch (error:any) {
+		yield put(setLoadingProcessAction(false))
+		yield put(setShowMessageAction({statusMessage: 2, message: error.message}))
+	}
+	
+}
+
+
+
 export function* userWatcher() {
 	yield takeEvery(ASYNC_AUTH_USER, setAuthUserWorker)
 	yield takeEvery(ASYNC_REGISTER_USER, setRegisterUserWorker)
 	yield takeEvery(ASYNC_LOGOUT_USER_ACTION, logoutUserWorker)
 	yield takeEvery(ASYNC_SET_CHECK_LOGIN_USER_ACTION, checkLoginUserWorker)
+	yield takeEvery(ASYNC_CHANGE_LOGIN_USER, setChangeLoginUserWorker)
+	yield takeEvery(ASYNC_CHANGE_AVATAR_USER, setChangeAvatarUserWorker)
 
 }
