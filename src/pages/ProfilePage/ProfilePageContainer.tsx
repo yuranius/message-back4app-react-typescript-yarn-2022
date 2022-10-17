@@ -13,7 +13,7 @@ let input = ''
 
 export const ProfilePageContainer = () => {
 
-    const {userId, userLogin} = useSelector((state: stateUserType) => state.user)
+    const {userId, userLogin, avatar} = useSelector((state: stateUserType) => state.user)
     const {loading, message, statusMessage} = useSelector((state: stateOverType) => state.over)
     const [login, setLogin] = useState(userLogin)
     const [file, setFile] = useState('')
@@ -28,6 +28,7 @@ export const ProfilePageContainer = () => {
 
 
     const inputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+        event.preventDefault()
         setInput(event.target.value)
         setLogin(event.target.value)
         setShow(false)
@@ -68,23 +69,26 @@ export const ProfilePageContainer = () => {
 
 
     const saveHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-        {loading && setShow(false)}
+        {
+            loading && setShow(false)
+        }
         event.preventDefault()
         showAlert('inputText')
 
-        if (userId && input) {
+        let gapChecking = /^\w+( \w+)*$/.test(input) // пробелы в начале и в конце строки
+
+
+        if (userId && input && gapChecking) {
             dispatch(AsyncChangeLoginUserAction({updatedLogin: input}))
-            //showSuccess(message)
             setInput('')
         } else if (!input) {
             showWarning('Поле не может быть пустым')
+        } else if (!gapChecking) {
+            showDanger('Пробелы в начале строки и в конце не допустимы... Поробуйте что-то другое...')
         } else {
             showDanger('Ошибка обработки запроса к базе данных')
         }
     }
-
-    console.log( '📌:',input,'🌴 🏁')
-
 
 
     const saveAvatarHandler = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -96,13 +100,6 @@ export const ProfilePageContainer = () => {
         }
         try {
             dispatch(AsyncChangeAvatarUserAction({updatedAvatar: file}));
-            if (statusMessage === 0) {
-                showSuccess(message)
-            } else if (statusMessage === 1) {
-                showWarning(message)
-            } else {
-                showDanger(message)
-            }
             setInputFileValue('')
             setPreview('')
         } catch (error) {
@@ -119,7 +116,7 @@ export const ProfilePageContainer = () => {
         } else {
             showDanger(message)
         }
-    }, [statusMessage,message])
+    }, [statusMessage, message, avatar])
 
 
     return <ProfilePage

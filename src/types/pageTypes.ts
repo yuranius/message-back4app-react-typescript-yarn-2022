@@ -8,7 +8,7 @@ export type MessagesPageProps = {
     currentUser: CurrentUserType,
     users: Array<Users>
     userHandler: (user: Users) => void,
-    userId: number,
+    userId: string,
     value: string,
     messageHandler: (event: React.ChangeEvent<HTMLInputElement> & React.KeyboardEvent<HTMLInputElement>) => void,
     addMassage: () => void,
@@ -19,7 +19,7 @@ export type MessagesPageProps = {
 }
 
 type Users = {
-    id: number | null,
+    id: string | null,
     login: string | null,
     avatar: string | null,
     content:string | null,
@@ -27,7 +27,7 @@ type Users = {
 }
 
 export type MessagePageProps = {
-    message: { content: string, created_at: string, id: number },
+    message: { content: string, created_at: string, id: string },
 }
 
 
@@ -38,7 +38,7 @@ export type UserListMessagesPropsTypes = {
 }
 
 export type UsersWhoHaveMassagesTypes = {
-    id: number | null,
+    id: string | null,
     login: string | null,
     avatar: string | null,
     content:string | null,
@@ -60,7 +60,7 @@ export type FooterBlockMessagesPropsType = {
 export interface BlockMessagesPropsType extends TitleBlockMessagesPropsTypes,
     FooterBlockMessagesPropsType {
     messages: Array<messagesMessageType>,
-    userId: number,
+    userId: string,
     divRef: any,
     loading: boolean,
 }
@@ -86,15 +86,15 @@ export type PaginatorPropsTypes = {
 
 export type FriendsPropsTypes = {
     friends: Array<FriendsType>,
-    deleteFriend: (friendId: number) => void,
+    deleteFriend: (friendId: string) => void,
     loading: boolean,
     defaultAvatar: string,
-    userId: number,
+    userId: string,
     sendMessage: ({}: sendMessageType) => void
 }
 
 interface sendMessageType {
-    id: number,
+    id: string,
     login: string,
     avatar: string,
 }
@@ -104,8 +104,8 @@ interface sendMessageType {
 
 
 export interface UsersPropsTypes extends ObjUsersType {
-    addFriend: (friendId: number) => void,
-    deleteFriend: (friendId: number) => void,
+    addFriend: (friendId: string) => void,
+    deleteFriend: (friendId: string) => void,
     defaultAvatar: string
     searchChangeHandler: (event: React.ChangeEvent<HTMLInputElement>) => void
     searchUser: string,
@@ -115,20 +115,20 @@ export interface UsersPropsTypes extends ObjUsersType {
     setShow: React.Dispatch<React.SetStateAction<boolean>>,
     loading: boolean,
     onPageChanged: (page: number) => void
-    sendMessage: ({}:FoundUsersItemTypes) => void
+    sendMessage: ({}:sendMessageType) => void
 }
 
 export type FoundUsersItemTypes = {
-    id: number
-    key: number
+    id: string
+    key: string
     login: string
-    addFriend: (friendId: number) => void,
-    deleteFriend: (friendId: number) => void,
-    userId: number
+    addFriend: (friendId: string) => void,
+    deleteFriend: (friendId: string) => void,
+    userId: string
     friend: boolean
     avatar: string
     defaultAvatar: string
-    sendMessage: ({}:FoundUsersItemTypes) => void
+    sendMessage: ({}:sendMessageType) => void
     loading:boolean
 }
 

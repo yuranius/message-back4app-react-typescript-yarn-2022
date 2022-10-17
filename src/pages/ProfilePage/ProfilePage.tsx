@@ -17,9 +17,9 @@ export const ProfilePage:React.FC<ProfilePropsTypes> = (props) => {
                         onChange={props.inputHandler}
                         placeholder={props.userLogin}
                         value={props.input}
+                        onKeyUp={props.inputHandler}
                     />
                     <Form.Control.Feedback type='invalid'>{props.message}</Form.Control.Feedback>
-                    {/*<Form.Control.Feedback type='valid'>Looks good!</Form.Control.Feedback>*/}
                     {props.showAlertInputText && <div className='mt-3' >
                         <AlertForm variant={props.variant} setShow={props.setShow} heading={props.message} show={props.show} />
                     </div>}

@@ -1,4 +1,11 @@
-import {ActionsType, AsyncDelFriendActionType, AsyncGetFriendsActionType, DelFriendActionType, GetFriendsActionType} from "../types/reducersType"
+import {
+    ActionsType,
+    AsyncDelFriendActionType,
+    AsyncGetFriendsActionType,
+    DeleteFriend,
+    DelFriendActionType,
+    GetFriendsActionType
+} from "../types/reducersType"
 
 export const GET_FRIENDS = 'GET_FRIENDS'
 export const ASYNC_GET_FRIENDS = 'ASYNC_GET_FRIENDS'
@@ -12,7 +19,7 @@ const defaultState = {
     friends: [] as Array<friend>
 }
 interface friend {
-    id: number;
+    id: string;
     login: string;
     friend: boolean;
 }
@@ -33,10 +40,10 @@ export const friendsReducer = (state = defaultState, action:ActionsType) => {
 
 
 export const getFriendsAction = (payload:string):GetFriendsActionType => ({type: GET_FRIENDS, payload})
-export const AsyncGetFriendsAction= (payload:number):AsyncGetFriendsActionType => ({type: ASYNC_GET_FRIENDS, payload})
+export const AsyncGetFriendsAction= (payload:string):AsyncGetFriendsActionType => ({type: ASYNC_GET_FRIENDS, payload})
 
-export const delFriendAction = (payload:number):DelFriendActionType => ({type: DEL_FRIEND, payload})
-export const AsyncDelFriendAction = (payload:object):AsyncDelFriendActionType => ({type: ASYNC_DEL_FRIEND, payload})
+export const delFriendAction = (payload:string):DelFriendActionType => ({type: DEL_FRIEND, payload})
+export const AsyncDelFriendAction = (payload:DeleteFriend):AsyncDelFriendActionType => ({type: ASYNC_DEL_FRIEND, payload})
 
 
 

@@ -42,7 +42,7 @@ export const authReducer = (state = defaultState, action: AuthReducerActionsType
 		case CHANGE_LOGIN_USER:
 			return {...state, userLogin: action.payload};
 		case CHANGE_AVATAR_USER:
-			return {...state, userAvatar: action.payload}
+			return {...state, avatar: action.payload}
 		default:
 			return state;
 	}

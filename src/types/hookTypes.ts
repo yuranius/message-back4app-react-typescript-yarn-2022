@@ -1,5 +1,5 @@
 export type sendMessageType = {
-    id:number
+    id:string
     login:string,
     avatar:string
 }

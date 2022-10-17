@@ -18,7 +18,7 @@ export const FriendsContainer = () => {
 	let {friends} = useSelector((state:stateFriendsType) => state.friends)
 
 
-	let deleteFriend = (friendId:number) => {
+	let deleteFriend = (friendId:string) => {
 		dispatch(AsyncDelFriendAction({userId, friendId}))
 	};
 

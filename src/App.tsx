@@ -12,14 +12,14 @@ import Loader from "./components/loader";
 
 
 function App():JSX.Element {
-  const { token  } = useSelector((state:stateUserType) => state.user)
+  const { token , avatar  } = useSelector((state:stateUserType) => state.user)
   const dispatch = useDispatch()
   const routes = useRoutes(token);
 
 
   useEffect( () => {
     dispatch(AsyncSetCheckLoginUserAction())
-  },[dispatch])
+  },[dispatch, avatar])
 
   return (
       <Router>

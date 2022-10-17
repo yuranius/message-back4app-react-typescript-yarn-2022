@@ -82,10 +82,10 @@ export const UsersContainer: React.FC = () => {
 	}
 
 
-	let addFriend = (friendId: number) => {
+	let addFriend = (friendId: string) => {
 		dispatch(AsyncAddFriendAction({userId, friendId}))
 	};
-	let deleteFriend = (friendId: number) => {
+	let deleteFriend = (friendId: string) => {
 		dispatch(AsyncDeleteFriendAction({userId, friendId}))
 	};
 

@@ -45,7 +45,7 @@ type GetMessages = {
 }
 
 export const messagesAPI = {
-	getUsersWhoHaveMessages(payload: number) {
+	getUsersWhoHaveMessages(payload: string) {
 		// return instance.get(`/api/messages/collocuters/?userId=${payload}`, {}).then((response) => {
 		//     return response.data;
 		// });
@@ -106,8 +106,12 @@ export const loginAPI = {
 		return Parse.User.logOut()
 	},
 
-	testChangeLogin(updateLogin:string) {
-		return Parse.User.current().set('username', updateLogin).save()
+	changeLogin(updateLogin:string) {
+		Parse.User.current().set('username', updateLogin).save()
+	},
+
+	changeAvatar(updateAvatar:{}) {
+		return Parse.User.current().set('avatar', new Parse.File('ava', updateAvatar )).save()
 	},
 }
 
@@ -165,7 +169,7 @@ export const friendsAPI = {
 		return new Parse.Query('Friends').equalTo(firstField, user).equalTo(secondField, friend).find();
 	},
 
-	deleteFriend(payload: string) {
+	deleteFriend(payload: undefined | string) {
 		return new Parse.Object('Friends').set('objectId', payload).destroy();
 	},
 

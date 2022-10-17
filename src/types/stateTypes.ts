@@ -14,7 +14,7 @@ export type stateUserType = {
 
 type userType = {
     token: string
-    userId: number
+    userId: string
     avatar: string
     userLogin: string
 }
@@ -32,7 +32,7 @@ type messageType = {
 }
 
 export type CurrentUserType = {
-    id: number | null,
+    id: string | null,
     content : string | null,
     login: string | null,
     avatar: string | null,
@@ -40,7 +40,7 @@ export type CurrentUserType = {
 }
 
 type userMessageType = {
-    id: number
+    id: string
     content: string
     login: string
     created_at:string
@@ -48,11 +48,11 @@ type userMessageType = {
 }
 
 export type messagesMessageType = {
-    id: number
+    id: string
     content: string
     login: string
     created_at: string
-    user_from_id:number | null
+    user_from_id: string | null
 }
 
 export type stateFriendsType = {
@@ -63,7 +63,7 @@ type ObjFriendsType = {
     friends: Array<FriendsType>
 }
 export type FriendsType = {
-    id:number,
+    id:string,
     login:string,
     avatar: string,
     friend:boolean,
@@ -75,7 +75,7 @@ export type stateUsersType = {
 
 export type ObjUsersType = {
     users: Array<UsersType>,
-    userId: number,
+    userId: string,
     pageSize: number,
     pageNumber:number,
     totalUsers: number,
@@ -83,7 +83,7 @@ export type ObjUsersType = {
 }
 
 export type UsersType = {
-    id: number,
+    id: string,
     login: string,
     avatar:string,
     friend: boolean,

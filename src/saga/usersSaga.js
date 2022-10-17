@@ -87,6 +87,8 @@ function* deleteFriendWorker({payload}) {
 			user, friend, firstField: 'FriendTwo', secondField: 'FriendOne'
 		})
 		const idObjectFriends = getIdAsQueryResultFromApi(findFriendOneField, findFriendTwoField)
+		console.log( '📌:',idObjectFriends,'🌴 🏁')
+		
 		yield friendsAPI.deleteFriend(idObjectFriends)
 		yield put(deleteFriend(payload))
 		yield put(setLoadingProcessAction(false))

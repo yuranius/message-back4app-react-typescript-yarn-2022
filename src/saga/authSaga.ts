@@ -4,7 +4,7 @@ import {
 	ASYNC_AUTH_USER, ASYNC_CHANGE_AVATAR_USER, ASYNC_CHANGE_LOGIN_USER,
 	ASYNC_LOGOUT_USER_ACTION,
 	ASYNC_REGISTER_USER,
-	ASYNC_SET_CHECK_LOGIN_USER_ACTION, changeLoginUser,
+	ASYNC_SET_CHECK_LOGIN_USER_ACTION, changeAvatarUser, changeLoginUser,
 	logoutUser,
 	setAuthUser
 } from "../store/authReducer"
@@ -16,6 +16,7 @@ import {
 	AsyncSetAuthUserActionType,
 	AsyncSetRegisterUserActionType
 } from "../types/reducersType";
+
 
 
 interface IUser {
@@ -107,7 +108,7 @@ function* logoutUserWorker() {
 function* setChangeLoginUserWorker({payload}:AsyncChangeLoginUserActionType) {
 	try {
 		yield put(setLoadingProcessAction(true))
-		yield loginAPI.testChangeLogin(payload.updatedLogin)
+		yield loginAPI.changeLogin(payload.updatedLogin)
 		yield put(changeLoginUser(payload.updatedLogin))
 		yield put(setShowMessageAction({statusMessage: 0, message: 'Имя пользователя изменено на ' + payload.updatedLogin}))
 		yield put(setLoadingProcessAction(false))
@@ -119,14 +120,14 @@ function* setChangeLoginUserWorker({payload}:AsyncChangeLoginUserActionType) {
 			yield put(setShowMessageAction({statusMessage: 2, message: error.message}))
 		}
 	}
-	
 }
 
 function* setChangeAvatarUserWorker({payload}:AsyncChangeAvatarUserActionType) {
 	try {
 		yield put(setLoadingProcessAction(true))
-	console.log( '📌:',payload,'🌴 🏁')
-
+		const test:IAvatar = yield loginAPI.changeAvatar( payload.updatedAvatar)
+		yield put(changeAvatarUser({updatedAvatar: test.get('avatar').url()}))
+		yield put(setShowMessageAction({statusMessage: 0, message: 'Автар изменен'}))
 		yield put(setLoadingProcessAction(false))
 	} catch (error:any) {
 		yield put(setLoadingProcessAction(false))

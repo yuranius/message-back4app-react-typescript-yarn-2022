@@ -1,5 +1,5 @@
 export function getIdAsQueryResultFromApi(result1:[], result2:[]) {
-	let id = ''
+	let id:string = ''
 	if (result1.length) {
 		result1.forEach( (t:any) => {id = t.id})
 	} else if (result2.length) {

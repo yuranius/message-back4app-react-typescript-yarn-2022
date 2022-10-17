@@ -26,18 +26,23 @@ export type GetFriendsActionType = {
 
 export type AsyncGetFriendsActionType = {
     type: typeof ASYNC_GET_FRIENDS
-    payload: number
+    payload: string
 }
 
 export type DelFriendActionType = {
     type: typeof DEL_FRIEND
-    payload: number
+    payload: string
 }
 
 
 export type AsyncDelFriendActionType = {
     type: typeof ASYNC_DEL_FRIEND
-    payload: object
+    payload: DeleteFriend
+}
+
+export type DeleteFriend = {
+    userId: string,
+    friendId: string,
 }
 
 export type ActionsType = GetFriendsActionType | AsyncGetFriendsActionType | DelFriendActionType | AsyncDelFriendActionType
@@ -100,7 +105,7 @@ export type AuthUser = {
 }
 
 export type LogoutUser = {
-    userId: number | null,
+    userId: string | null,
     token: string | null
 }
 
@@ -116,10 +121,10 @@ export type AddMessageActionCreatorType = {
 }
 
 export type AddMessageType = {
-    id: number,
+    id: string,
     message: string,
-    userToId: number,
-    userFromId: number,
+    userToId: string,
+    userFromId: string,
     created_at:string,
 }
 
@@ -131,8 +136,8 @@ export type AsyncAddMessageActionCreatorType = {
 
 export type MessageType = {
     message:string | null,
-    userToId:number | null,
-    userFromId:number | null,
+    userToId:string | null,
+    userFromId:string | null,
     login: string | null,
     created_at: string | null,
 }
@@ -144,7 +149,7 @@ export type AddUsersWhoHaveMessagesActionType = {
 }
 
 export type AddUsersMessagesType = {
-    id: number,
+    id: string,
     login: string,
     avatar:string,
 
@@ -158,7 +163,7 @@ export type GetUsersWhoHaveMessagesActionType = {
 
 
 export type MyUsersType = {
-    id: number | null,
+    id: string | null,
     content: string | null,
     login: string | null,
     avatar:string | null,
@@ -167,17 +172,17 @@ export type MyUsersType = {
 
 export type AsyncGetUsersWhoHaveMessagesActionType = {
     type: typeof ASYNC_GET_USERS_WHO_HAVE_MESSAGES
-    payload: number
+    payload: string
 }
 
 export type ChangeUsersWhoHaveMessagesActionType = {
     type: typeof CHANGE_USERS_WHO_HAVE_MESSAGES
-    payload: number | null
+    payload: string | null
 }
 
 export type AsyncChangeUsersWhoHaveMessagesActionType = {
     type: typeof ASYNC_CHANGE_USERS_WHO_HAVE_MESSAGES
-    payload: number | null
+    payload: string | null
 }
 
 
@@ -189,11 +194,11 @@ export type GetMessagesUserActionType = {
 
 
 export type MessagesUser = {
-    id: number | null,
+    id: string | null,
     content: string | null,
     login: string | null,
     created_at: string | null,
-    user_from_id: number | null,
+    user_from_id: string | null,
 }
 
 export type AsyncGetMessagesUserActionType = {
@@ -202,8 +207,8 @@ export type AsyncGetMessagesUserActionType = {
 }
 
 export type GetMessagesUsers = {
-    userId:number | null,
-    friendsId: number | null,
+    userId:string | null,
+    friendsId: string | null,
 }
 
 export type SetCurrentUserActionType = {
