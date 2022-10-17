@@ -13,7 +13,7 @@ const TitleBlockMessages:React.FC<TitleBlockMessagesPropsTypes> = ({currentUser,
         <div className="aside__popup-header">
             <div className="popup__card">
                 <figure className="popup__avatar">
-                    <img src={!!currentUser.avatar ? `${API_URL + currentUser.avatar}` : defaultAvatar} alt='Аватарка'/>
+                    <img src={!!currentUser.avatar ? currentUser.avatar : defaultAvatar} alt='Аватарка'/>
                 </figure>
                 <h5 className="popup__text-primary">
                     {currentUser.login}

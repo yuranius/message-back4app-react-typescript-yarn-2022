@@ -1,5 +1,5 @@
 import {put, takeEvery} from 'redux-saga/effects'
-import {messagesAPI} from "../api/api";
+import {loginAPI, messagesAPI} from "../api/api";
 import {
     ASYNC_CHANGE_USERS_WHO_HAVE_MESSAGES,
     ASYNC_GET_USERS_WHO_HAVE_MESSAGES,
@@ -11,24 +11,38 @@ import {
 import {setLoadingProcessAction, setShowMessageAction} from "../store/overReducer";
 import {
     AsyncAddMessageActionCreatorType, AsyncGetMessagesUserActionType, AsyncGetUsersWhoHaveMessagesActionType,
-    ChangeUsersWhoHaveMessagesActionType, GetMessagesUserActionType
+    ChangeUsersWhoHaveMessagesActionType, GetMessagesUserActionType, MyUsersType
 } from "../types/reducersType";
+import {mapAndPuhMessagesFromApi} from "../Utilits/mapAndPushMessagesFromApi";
+
+
+interface IUser {
+    get: (field: string) => string
+    id: string
+}
 
 
 
 
-function* setUsersWhoHaveMessagesWorker({payload}:AsyncGetUsersWhoHaveMessagesActionType) {
+function* setUsersWhoHaveMessagesWorker() {
     try {
         yield put (setLoadingProcessAction(true))
-        const {users} = yield messagesAPI.getUsersWhoHaveMessages(payload)
-        yield put (setLoadingProcessAction(false))
-        yield put (getUsersWhoHaveMessagesAction(users))
-        if (users.length) {
-            yield put(setCurrentUserAction(users[0]))
-        }
+        const user: IUser = yield loginAPI.loginCheck()
+        const messagesFrom:[] = yield messagesAPI.getUsersWhoHaveMessages('user_from_id', user)
+        
+        console.log( '📌:',messagesFrom,'🌴 🏁')
+        
+        
+        // const messagesTo:[] = yield messagesAPI.getUsersWhoHaveMessages('user_to_id', user)
+        // const allMessage = [...mapAndPuhMessagesFromApi(messagesFrom, 'user_to_id'), ...mapAndPuhMessagesFromApi(messagesTo, 'user_from_id')]
+        // yield put (setLoadingProcessAction(false))
+        // yield put (getUsersWhoHaveMessagesAction(allMessage.reverse()))
+        // if (allMessage.length) {
+        //     yield put(setCurrentUserAction(allMessage.reverse()[0]))
+        // }
     } catch (error:any) {
         yield put (setLoadingProcessAction(false))
-        yield  put(setShowMessageAction({statusMessage:2, message:error.response.data.message}))
+        yield  put(setShowMessageAction({statusMessage:2, message:error.message}))
     }
 }
 
@@ -43,12 +57,16 @@ function* changeUsersWhoHaveMessagesWorker({payload}:ChangeUsersWhoHaveMessagesA
 function* getMessagesUserWorker({payload}:AsyncGetMessagesUserActionType) {
     try {
         yield put (setLoadingProcessAction(true))
-        const {allMessage} = yield messagesAPI.getMessages(payload)
-        if (allMessage) {
-            yield put (getMessagesUserAction(allMessage))
-        } else {
-            yield put (getMessagesUserAction([]))
-        }
+
+
+        console.log( '📌:message',payload,'🌴 🏁')
+
+        // const {allMessage} = yield messagesAPI.getMessages(payload)
+        // if (allMessage) {
+        //     yield put (getMessagesUserAction(allMessage))
+        // } else {
+        //     yield put (getMessagesUserAction([]))
+        // }
         yield put (setLoadingProcessAction(false))
 
     } catch (error:any) {

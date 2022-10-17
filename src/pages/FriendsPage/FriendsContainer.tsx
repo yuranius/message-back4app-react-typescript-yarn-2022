@@ -9,7 +9,7 @@ import {stateFriendsType, stateOverType, stateUserType} from "../../types/stateT
 
 
 
-export const FriendsContainer = () => {
+export const FriendsContainer = React.memo(() => {
 
 
 	const dispatch = useDispatch()
@@ -26,6 +26,7 @@ export const FriendsContainer = () => {
 		userId && dispatch(AsyncGetFriendsAction(userId))
 	},[userId])
 
+
 	useEffect(()=> {
 	},[friends])
 
@@ -33,7 +34,7 @@ export const FriendsContainer = () => {
 	
 	const {sendMessage} = useSendMessageFromUserAndFriendsPage();
 
-	if (loading) {
+	if (loading && !friends.length) {
 		return <div className='d-flex justify-content-center align-items-center' style={{height: window.innerHeight - 200}}>
 			<Spinner animation="border" variant="primary" style={{width:100, height:100}} />
 		</div>
@@ -48,4 +49,4 @@ export const FriendsContainer = () => {
 		defaultAvatar={defaultAvatar}
 		sendMessage={sendMessage}
 	/>}
-};
+});

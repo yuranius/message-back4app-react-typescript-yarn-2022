@@ -114,6 +114,14 @@ export type AuthReducerActionsType = SetAuthUserActionType | LogoutUserType | ch
 
 //--------------= MessageReducer =---------- //
 
+export type MyUsersSagaType = {
+    id: string,
+    content: string,
+    login: string,
+    avatar: string,
+    created_at: string,
+}
+
 
 export type AddMessageActionCreatorType = {
     type: typeof ADD_MESSAGE
@@ -172,7 +180,6 @@ export type MyUsersType = {
 
 export type AsyncGetUsersWhoHaveMessagesActionType = {
     type: typeof ASYNC_GET_USERS_WHO_HAVE_MESSAGES
-    payload: string
 }
 
 export type ChangeUsersWhoHaveMessagesActionType = {

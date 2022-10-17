@@ -117,7 +117,7 @@ export const AsyncAddMessageActionCreator = (payload:MessageType):AsyncAddMessag
 export const addUsersWhoHaveMessagesAction = (payload:AddUsersMessagesType):AddUsersWhoHaveMessagesActionType => ({type: ADD_USERS_WHO_HAVE_MESSAGES, payload})
 
 export const getUsersWhoHaveMessagesAction = (payload:Array<MyUsersType>):GetUsersWhoHaveMessagesActionType => ({type:GET_USERS_WHO_HAVE_MESSAGES, payload});
-export const AsyncGetUsersWhoHaveMessagesAction = (payload:string):AsyncGetUsersWhoHaveMessagesActionType => ({type:ASYNC_GET_USERS_WHO_HAVE_MESSAGES, payload});
+export const AsyncGetUsersWhoHaveMessagesAction = ():AsyncGetUsersWhoHaveMessagesActionType => ({type:ASYNC_GET_USERS_WHO_HAVE_MESSAGES});
 
 export const changeUsersWhoHaveMessagesAction = (payload:string | null):ChangeUsersWhoHaveMessagesActionType => ({type:CHANGE_USERS_WHO_HAVE_MESSAGES, payload});
 //export const AsyncChangeUsersWhoHaveMessagesAction = (payload: number | null):AsyncChangeUsersWhoHaveMessagesActionType => ({type:ASYNC_CHANGE_USERS_WHO_HAVE_MESSAGES, payload});

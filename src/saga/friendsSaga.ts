@@ -15,9 +15,7 @@ import {getIdAsQueryResultFromApi} from "../Utilits/getIdAsQueryResultFromApi";
 
 
 interface IFriends {
-    id: string,
-    login:string,
-    friend:boolean,
+    get: (name: string) => string
 }
 
 
@@ -59,7 +57,7 @@ function* delFriendWorker({payload}:AsyncDelFriendActionType){
         yield put(setLoadingProcessAction(true))
 
         const user:{} = yield usersAPI.getUser()
-        const friend:{} = yield  friendsAPI.getFriend(payload.friendId)
+        const friend:IFriends = yield  friendsAPI.getFriend(payload.friendId)
         const findFriendOneField:[] = yield friendsAPI.findDataAboutFriends({
             user, friend, firstField: 'FriendOne', secondField: 'FriendTwo'
         })
@@ -68,14 +66,11 @@ function* delFriendWorker({payload}:AsyncDelFriendActionType){
         })
         const idObjectFriends:undefined | string = getIdAsQueryResultFromApi(findFriendOneField, findFriendTwoField)
 
-        console.log( '📌:',idObjectFriends,'🌴 🏁')
-
         yield friendsAPI.deleteFriend(idObjectFriends)
-        yield put(deleteFriend(payload))
-        //const {friendId, message} = yield friendsAPI.deleteFriend(payload)
+        //yield put(deleteFriend(payload))
         yield put(setLoadingProcessAction(false))
-        //yield put (delFriendAction(friendId))
-        //yield put (setShowMessageAction({statusMessage: 0, message}))
+        yield put (delFriendAction(payload.friendId))
+        yield put (setShowMessageAction({statusMessage: 0, message: 'Пользователь ' + friend.get('username') + ' удален из списка друзей'}))
     } catch (error:any) {
         yield put(setLoadingProcessAction(false))
         yield put(setShowMessageAction({statusMessage:2, message: error.response.data.massage}))

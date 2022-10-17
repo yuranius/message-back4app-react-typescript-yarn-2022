@@ -77,22 +77,22 @@ const MessagesContainer = () => {
 
 
    useEffect( ()=> {
-      if (userId && currentUser.id) {
+      if (currentUser.id) {
          dispatch(AsyncGetMessagesUserAction({userId, friendsId: currentUser.id}))
       }
-   },[userId,currentUser]) //
+   },[currentUser]) //
 
-   useEffect( ()=> {
-      if (userId && currentUser.id) {
-         dispatch(AsyncGetMessagesUserAction({userId, friendsId: currentUser.id}))
-      }
-   },[])
+   // useEffect( ()=> {
+   //    if (userId && currentUser.id) {
+   //       dispatch(AsyncGetMessagesUserAction({userId, friendsId: currentUser.id}))
+   //    }
+   // },[])
 
 
 
    useEffect( ()=> {
       if (userId && !isRedirectFromAnyPage) {
-         dispatch(AsyncGetUsersWhoHaveMessagesAction(userId))
+         dispatch(AsyncGetUsersWhoHaveMessagesAction())
       }
       return () => {
          dispatch(isRedirectFromAnyPageAction(false))
@@ -101,13 +101,14 @@ const MessagesContainer = () => {
 
    const userHandler = (user:UsersWhoHaveMassagesTypes) => {
       dispatch(setCurrentUserAction(user))
-      if (userId && currentUser.id) {
-         dispatch(AsyncGetMessagesUserAction({userId, friendsId:currentUser.id}))
-      }
+
+      console.log( '📌:',user.id,'🌴 🏁')
+
+      // if (userId && currentUser.id) {
+      //    dispatch(AsyncGetMessagesUserAction({userId, friendsId:currentUser.id}))
+      // }
       setShow(false)
    }
-
-
 
 
 

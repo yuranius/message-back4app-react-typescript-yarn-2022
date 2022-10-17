@@ -44,44 +44,15 @@ type GetMessages = {
 	friendsId: number
 }
 
-export const messagesAPI = {
-	getUsersWhoHaveMessages(payload: string) {
-		// return instance.get(`/api/messages/collocuters/?userId=${payload}`, {}).then((response) => {
-		//     return response.data;
-		// });
-	},
-	getMessages({userId, friendsId}: GetMessagesUsers) {
-		// return instance.get(`/api/messages/?userId=${userId}&friendsId=${friendsId}`, {}).then((response) => {
-		//     return response.data;
-		// });
-	},
-	addMessage(payload: MessageType) {
-		// return instance.post(`/api/messages/add`, {payload}).then((response) => {
-		//     return response.data;
-		// });
-	},
 
-
-	//!TODO не реализовано
-	changeMassage(payload: any) {
-		// return instance.post(`/api/messages/${payload}`, {}).then((response) => {
-		//     return response.data;
-		// });
-	},
-	//!TODO не реализовано
-	deleteMassage(payload: any) {
-		// return instance.post(`/api/massages/delete`, {}).then((response) => {
-		//     return response.data;
-		// });
-	},
-}
 
 
 // Your Parse initialization configuration goes here
 const PARSE_APPLICATION_ID = 'vQk4D7V3gIHGhA0cjAx0v2gmzndEVeBMv4b3Zojs';
 const PARSE_HOST_URL = 'https://parseapi.back4app.com/';
 const PARSE_JAVASCRIPT_KEY = 'gMOqgiPRrv16Lqg5Ps2lYuEMdore14YAyhU1Byu0';
-Parse.initialize(PARSE_APPLICATION_ID, PARSE_JAVASCRIPT_KEY);
+const MASTER_KEY = 'Jn7UyPFUjbcfuztVieO4uRNX5jgglV3UiT3lgAr0';
+Parse.initialize(PARSE_APPLICATION_ID, PARSE_JAVASCRIPT_KEY, MASTER_KEY);
 Parse.serverURL = PARSE_HOST_URL;
 
 
@@ -178,5 +149,37 @@ export const friendsAPI = {
 		//     return response.data
 		// })
 	}
+}
+
+export const messagesAPI = {
+	getUsersWhoHaveMessages(field: string, user:{} ) {
+		//return new Parse.Query('Message').equalTo(field, user).include(field).find()
+		return new Parse.Query('User').distinct('username')
+	},
+
+	getMessages({userId, friendsId}: GetMessagesUsers) {
+		// return instance.get(`/api/messages/?userId=${userId}&friendsId=${friendsId}`, {}).then((response) => {
+		//     return response.data;
+		// });
+	},
+	addMessage(payload: MessageType) {
+		// return instance.post(`/api/messages/add`, {payload}).then((response) => {
+		//     return response.data;
+		// });
+	},
+
+
+	//!TODO не реализовано
+	changeMassage(payload: any) {
+		// return instance.post(`/api/messages/${payload}`, {}).then((response) => {
+		//     return response.data;
+		// });
+	},
+	//!TODO не реализовано
+	deleteMassage(payload: any) {
+		// return instance.post(`/api/massages/delete`, {}).then((response) => {
+		//     return response.data;
+		// });
+	},
 }
 
