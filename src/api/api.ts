@@ -152,9 +152,8 @@ export const friendsAPI = {
 }
 
 export const messagesAPI = {
-	getUsersWhoHaveMessages(field: string, user:{} ) {
-		//return new Parse.Query('Message').equalTo(field, user).include(field).find()
-		return new Parse.Query('User').distinct('username')
+	async getUsersWhoHaveMessages(field: string, user:{} ) {
+		return new Parse.Query('Message').equalTo(field, user).include(field).find()
 	},
 
 	getMessages({userId, friendsId}: GetMessagesUsers) {
