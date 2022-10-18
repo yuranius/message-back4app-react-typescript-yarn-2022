@@ -9,8 +9,6 @@ export function mapAndPuhMessagesFromApi (messages:any, field:'user_from_id' | '
 		avatar: message.get(field).get('avatar').url(),
 		created_at: message.get('created_at')
 	}))
-	console.log( '📌:',allMessage,'🌴 🏁')
-
 	return allMessage
 }
 

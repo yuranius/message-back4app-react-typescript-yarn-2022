@@ -4,6 +4,7 @@ import {MessagesPageProps} from "../../types/pageTypes";
 import {Button, Container, Modal} from "react-bootstrap";
 import UsersListMessages from "../../components/messages/UsersListMessages";
 import BlockMessages from "../../components/messages/BlockMessages";
+import Loader from "../../components/loader";
 
 
 const Messages:
@@ -46,7 +47,7 @@ const Messages:
                             </Button>
                         </Modal.Footer>
                     </Modal>
-                </div> :
+                </div> : (loading) ? <Loader /> :
                 <div>
                     <hr/>
                     <h3 className='text-center'>У Вас пока нет сообщений</h3>

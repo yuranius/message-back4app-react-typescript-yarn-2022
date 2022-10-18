@@ -127,12 +127,14 @@ export type FindFriend = {
 	secondField:string
 }
 
+export type FindMessage = FindFriend
+
 export const friendsAPI = {
 	addFriend(payload: AddFriend) {
 		return new Parse.Object('Friends').set('FriendOne', payload.user).set('FriendTwo', payload.friend).set('Status', false).save();
 	},
 
-	getFriend(friendId:string) {
+	getFriend(friendId: string | null) {
 		return new Parse.Query('User').equalTo('objectId', friendId).first();
 	},
 
@@ -143,12 +145,6 @@ export const friendsAPI = {
 	deleteFriend(payload: undefined | string) {
 		return new Parse.Object('Friends').set('objectId', payload).destroy();
 	},
-
-	getFriends(payload: number) {
-		// return instance.get( `api/find/friends/?userId=${payload}`, {}).then((response) => {
-		//     return response.data
-		// })
-	}
 }
 
 export const messagesAPI = {
@@ -156,10 +152,8 @@ export const messagesAPI = {
 		return new Parse.Query('Message').equalTo(field, user).include(field).find()
 	},
 
-	getMessages({userId, friendsId}: GetMessagesUsers) {
-		// return instance.get(`/api/messages/?userId=${userId}&friendsId=${friendsId}`, {}).then((response) => {
-		//     return response.data;
-		// });
+	getMessages({user, friend, firstField, secondField}: FindMessage) {
+		return new Parse.Query('Message').equalTo(firstField, user).equalTo(secondField, friend).find()
 	},
 	addMessage(payload: MessageType) {
 		// return instance.post(`/api/messages/add`, {payload}).then((response) => {

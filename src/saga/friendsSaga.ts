@@ -58,7 +58,7 @@ function* delFriendWorker({payload}:AsyncDelFriendActionType){
 
         const user:{} = yield usersAPI.getUser()
         const friend:IFriends = yield  friendsAPI.getFriend(payload.friendId)
-        const findFriendOneField:[] = yield friendsAPI.findDataAboutFriends({
+	    const findFriendOneField:[] = yield friendsAPI.findDataAboutFriends({
             user, friend, firstField: 'FriendOne', secondField: 'FriendTwo'
         })
         const findFriendTwoField:[] = yield friendsAPI.findDataAboutFriends({

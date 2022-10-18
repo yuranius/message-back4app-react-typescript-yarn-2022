@@ -1,5 +1,5 @@
 import {put, takeEvery} from 'redux-saga/effects'
-import {loginAPI, messagesAPI} from "../api/api";
+import {friendsAPI, loginAPI, messagesAPI} from "../api/api";
 import {
     ASYNC_CHANGE_USERS_WHO_HAVE_MESSAGES,
     ASYNC_GET_USERS_WHO_HAVE_MESSAGES,
@@ -14,6 +14,7 @@ import {
     ChangeUsersWhoHaveMessagesActionType, GetMessagesUserActionType, MyUsersType
 } from "../types/reducersType";
 import {mapAndPuhMessagesFromApi} from "../Utilits/mapAndPushMessagesFromApi";
+import {uniqueDataArrayMessages} from "../Utilits/uniqueDataArrayMessages";
 
 
 interface IUser {
@@ -21,35 +22,18 @@ interface IUser {
     id: string
 }
 
+let user:IUser = {get:field => '', id: ''}
 
 
-
-function* setUsersWhoHaveMessagesWorker() {
+function* getUsersWhoHaveMessagesWorker() {
     try {
         yield put (setLoadingProcessAction(true))
-        const user: IUser = yield loginAPI.loginCheck()
+        user = yield loginAPI.loginCheck()
         const messagesFrom:[] = yield messagesAPI.getUsersWhoHaveMessages('user_from_id', user)
         const messagesTo:[] = yield messagesAPI.getUsersWhoHaveMessages('user_to_id', user)
-        const allMessage = [...mapAndPuhMessagesFromApi(messagesFrom, 'user_to_id'), ...mapAndPuhMessagesFromApi(messagesTo, 'user_from_id')].reverse()
-
-        console.log( '📌:',allMessage,'🌴 🏁')
-
-
-        let unique = (devices:any) => {
-            return Array.from(devices).filter((value:any, index, array) => {
-                return index === array.findIndex((item:any) => Object.is(item.id, value.id));
-            });
-        }
-    
-
-        let testArr:[] = unique(allMessage)
-
-
-
-        
-        
-
         yield put (setLoadingProcessAction(false))
+        const allMessage:Array<MyUsersType> = [...mapAndPuhMessagesFromApi(messagesFrom, 'user_to_id'), ...mapAndPuhMessagesFromApi(messagesTo, 'user_from_id')].reverse()
+        const testArr:Array<MyUsersType> = uniqueDataArrayMessages(allMessage)
         yield put (getUsersWhoHaveMessagesAction(testArr))
         if (allMessage.length) {
             yield put(setCurrentUserAction(testArr[0]))
@@ -72,8 +56,16 @@ function* getMessagesUserWorker({payload}:AsyncGetMessagesUserActionType) {
     try {
         yield put (setLoadingProcessAction(true))
 
+        const friend:IUser = yield friendsAPI.getFriend(payload.friendsId)
 
-        console.log( '📌:message',payload,'🌴 🏁')
+        const messagesFrom:[] = yield messagesAPI.getMessages({user, friend, firstField: 'user_from_id', secondField: 'user_to_id'})
+        const messagesTo:[] = yield messagesAPI.getMessages({user, friend, firstField: 'user_to_id', secondField: 'user_from_id'})
+        console.log( '📌:',messagesFrom, messagesTo,'🌴 🏁')
+
+        const allMessage = [...messagesFrom, ...messagesTo]
+
+        allMessage.map( (message:any) => {console.log( '📌:',message.get('user_from_id').id,'🌴 🏁')
+        })
 
         // const {allMessage} = yield messagesAPI.getMessages(payload)
         // if (allMessage) {
@@ -86,7 +78,7 @@ function* getMessagesUserWorker({payload}:AsyncGetMessagesUserActionType) {
     } catch (error:any) {
         yield put (setLoadingProcessAction(false))
         yield put (getMessagesUserAction([{user_from_id: null, id: null, created_at: null, login: null, content:null}]))
-        yield  put(setShowMessageAction({statusMessage:2, message:error.response.data.message}))
+        yield  put(setShowMessageAction({statusMessage:2, message:error.message}))
 
     }
 }
@@ -107,7 +99,7 @@ function* addMessageWorker({payload}:AsyncAddMessageActionCreatorType) {
 
 
 export function* messagesWatcher() {
-    yield takeEvery(ASYNC_GET_USERS_WHO_HAVE_MESSAGES, setUsersWhoHaveMessagesWorker)
+    yield takeEvery(ASYNC_GET_USERS_WHO_HAVE_MESSAGES, getUsersWhoHaveMessagesWorker)
     yield takeEvery(ASYNC_GET_MESSAGES_USER, getMessagesUserWorker)
     yield takeEvery(ASYNC_ADD_MESSAGE, addMessageWorker)
     yield takeEvery(ASYNC_CHANGE_USERS_WHO_HAVE_MESSAGES, changeUsersWhoHaveMessagesWorker)
