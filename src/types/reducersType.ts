@@ -120,6 +120,7 @@ export type MyUsersSagaType = {
     login: string,
     avatar: string,
     created_at: string,
+    user_from_id:string
 }
 
 
@@ -129,11 +130,11 @@ export type AddMessageActionCreatorType = {
 }
 
 export type AddMessageType = {
-    id: string,
-    message: string,
-    userToId: string,
-    userFromId: string,
-    created_at:string,
+    id: string | null,
+    message: string | null,
+    userToId: string | null,
+    userFromId: string | null,
+    created_at:string | null,
 }
 
 
@@ -145,10 +146,11 @@ export type AsyncAddMessageActionCreatorType = {
 export type MessageType = {
     message:string | null,
     userToId:string | null,
-    userFromId:string | null,
+    userFromId: string | null,
     login: string | null,
     created_at: string | null,
 }
+
 
 
 export type AddUsersWhoHaveMessagesActionType = {
@@ -206,6 +208,7 @@ export type MessagesUser = {
     login: string | null,
     created_at: string | null,
     user_from_id: string | null,
+    updatedAt?: Date
 }
 
 export type AsyncGetMessagesUserActionType = {

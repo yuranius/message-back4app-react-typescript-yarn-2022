@@ -2,51 +2,6 @@
 import Parse from '../../node_modules/parse/dist/parse';
 
 
-import {GetMessagesUsers, MessageType} from '../types/reducersType';
-
-
-
-// @ts-ignore
-const instance = {
-	headers: {
-		'Content-Type': 'application/json',
-	},
-};
-
-
-
-export const profileAPI = {
-	changeLogin(userId: number, userLogin: string) {
-		// return instance.post(`/api/profile/login`, { userId, userLogin }).then((response) => {
-		//     return response.data;
-		// });
-	},
-	changeAvatar(formData: any) {
-
-	}
-}
-
-type FindUsers = {
-	userId: number,
-	pageNumber: number,
-	pageSize: number,
-	value?: string,
-}
-
-
-
-
-
-
-
-type GetMessages = {
-	userId: number
-	friendsId: number
-}
-
-
-
-
 // Your Parse initialization configuration goes here
 const PARSE_APPLICATION_ID = 'vQk4D7V3gIHGhA0cjAx0v2gmzndEVeBMv4b3Zojs';
 const PARSE_HOST_URL = 'https://parseapi.back4app.com/';
@@ -134,7 +89,7 @@ export const friendsAPI = {
 		return new Parse.Object('Friends').set('FriendOne', payload.user).set('FriendTwo', payload.friend).set('Status', false).save();
 	},
 
-	getFriend(friendId: string | null) {
+	getFriend(friendId:string | null) {
 		return new Parse.Query('User').equalTo('objectId', friendId).first();
 	},
 
@@ -147,6 +102,13 @@ export const friendsAPI = {
 	},
 }
 
+interface IMessage {
+	user: {},
+	friend:{},
+	message: string | null,
+	created_at:string | null,
+}
+
 export const messagesAPI = {
 	async getUsersWhoHaveMessages(field: string, user:{} ) {
 		return new Parse.Query('Message').equalTo(field, user).include(field).find()
@@ -155,24 +117,18 @@ export const messagesAPI = {
 	getMessages({user, friend, firstField, secondField}: FindMessage) {
 		return new Parse.Query('Message').equalTo(firstField, user).equalTo(secondField, friend).find()
 	},
-	addMessage(payload: MessageType) {
-		// return instance.post(`/api/messages/add`, {payload}).then((response) => {
-		//     return response.data;
-		// });
+	addMessage({ friend, created_at, message, user}:IMessage):{} {
+		return new Parse.Object('Message').set('user_from_id', user).set('user_to_id', friend).set('content', message).set('created_at', created_at).save()
 	},
 
 
 	//!TODO не реализовано
 	changeMassage(payload: any) {
-		// return instance.post(`/api/messages/${payload}`, {}).then((response) => {
-		//     return response.data;
-		// });
+
 	},
 	//!TODO не реализовано
 	deleteMassage(payload: any) {
-		// return instance.post(`/api/massages/delete`, {}).then((response) => {
-		//     return response.data;
-		// });
+
 	},
 }
 

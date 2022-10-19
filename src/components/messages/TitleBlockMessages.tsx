@@ -1,5 +1,4 @@
 import React from 'react';
-import {API_URL} from "../../config";
 
 import {TitleBlockMessagesPropsTypes} from "../../types/pageTypes";
 import {Figure} from "react-bootstrap";

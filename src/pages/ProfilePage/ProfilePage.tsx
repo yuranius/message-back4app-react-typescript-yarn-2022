@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import {Button, Col, Form, Image, Row} from "react-bootstrap";
 import AlertForm from "../../components/Alert";
 import {ProfilePropsTypes} from "../../types/pageTypes";

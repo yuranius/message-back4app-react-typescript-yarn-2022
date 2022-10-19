@@ -17,6 +17,8 @@ export const overReducer = (state = defaultState, action:ActionsType) => {
 
        switch (action.type) {
            case SHOW_MESSAGE:
+               console.log( '📌:',action.payload,'🌴 🏁')
+               
                return {...state, message: action.payload.message, statusMessage: action.payload.statusMessage};
            case LOADING_PROCESS:
                return {...state, loading: action.payload}

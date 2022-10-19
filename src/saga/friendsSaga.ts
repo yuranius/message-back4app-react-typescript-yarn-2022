@@ -8,9 +8,6 @@ import {
 } from "../store/friendsReducer";
 import {setLoadingProcessAction, setShowMessageAction} from "../store/overReducer";
 import {AsyncDelFriendActionType, AsyncGetFriendsActionType} from "../types/reducersType";
-import {addQueryResultFromApiToArray} from "../Utilits/addQueryResultFromApiToArray";
-import {creatArrayUsersWithStatusFriend} from "../Utilits/creatArrayUsersWithStatusFriend";
-import {deleteFriend, getAllUsers} from "../store/usersReducer";
 import {getIdAsQueryResultFromApi} from "../Utilits/getIdAsQueryResultFromApi";
 
 

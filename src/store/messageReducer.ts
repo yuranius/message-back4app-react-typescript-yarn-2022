@@ -1,12 +1,9 @@
-import {currentDate} from "../Utilits/getData";
-import {CurrentUserType} from "../types/stateTypes";
 import {
     AddMessageActionCreatorType,
     AddMessageType,
     AddUsersMessagesType,
     AddUsersWhoHaveMessagesActionType,
     AsyncAddMessageActionCreatorType,
-    AsyncChangeUsersWhoHaveMessagesActionType,
     AsyncGetMessagesUserActionType,
     AsyncGetUsersWhoHaveMessagesActionType,
     ChangeUsersWhoHaveMessagesActionType,
@@ -52,7 +49,7 @@ export const messageReducer = (state = initialState, action:  MessageReducerActi
             let newMessage = {
                 id: action.payload.id,
                 content: action.payload.message,
-                created_at: currentDate,
+                created_at: action.payload.created_at,
                 user_from_id: action.payload.userFromId
             };
             return {
@@ -67,7 +64,7 @@ export const messageReducer = (state = initialState, action:  MessageReducerActi
                 content:'',
                 login: action.payload.login,
                 avatar: action.payload.avatar,
-                created_at: currentDate,
+                //created_at: action.payload.id,
             }
             return {
                 ...state,

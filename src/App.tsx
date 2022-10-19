@@ -4,9 +4,9 @@ import React, { useEffect} from "react";
 import {NavbarComponent} from "./components/Navbar";
 import {useDispatch, useSelector} from "react-redux";
 import {AsyncSetCheckLoginUserAction} from "./store/authReducer";
-import {stateOverType, stateUserType} from "./types/stateTypes";
+import { stateUserType} from "./types/stateTypes";
 import {useRoutes} from "./routes";
-import Loader from "./components/loader";
+
 
 
 

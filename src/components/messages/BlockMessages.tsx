@@ -5,7 +5,7 @@ import TitleBlockMessages from "./TitleBlockMessages";
 import FooterBlockMessages from "./FooterBlockMessages";
 import {BlockMessagesPropsType} from "../../types/pageTypes";
 import {Spinner} from "react-bootstrap";
-import SmartSender from "./SmartSender";
+
 
 const BlockMessages:
     React.FC<BlockMessagesPropsType> = ({

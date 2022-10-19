@@ -8,14 +8,12 @@ import {stateOverType, stateUserType} from "../../types/stateTypes";
 import {AsyncChangeAvatarUserAction, AsyncChangeLoginUserAction} from "../../store/authReducer";
 
 
-let input = ''
-
 
 export const ProfilePageContainer = () => {
 
     const {userId, userLogin, avatar} = useSelector((state: stateUserType) => state.user)
     const {loading, message, statusMessage} = useSelector((state: stateOverType) => state.over)
-    const [login, setLogin] = useState(userLogin)
+    //const [login, setLogin] = useState(userLogin)
     const [file, setFile] = useState('')
     const [inputFileValue, setInputFileValue] = useState('')
     const [preview, setPreview] = useState('')
@@ -30,7 +28,7 @@ export const ProfilePageContainer = () => {
     const inputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
         event.preventDefault()
         setInput(event.target.value)
-        setLogin(event.target.value)
+        //setLogin(event.target.value)
         setShow(false)
     }
 
@@ -75,7 +73,7 @@ export const ProfilePageContainer = () => {
         event.preventDefault()
         showAlert('inputText')
 
-        let gapChecking = /^\w+( \w+)*$/.test(input) // пробелы в начале и в конце строки
+        let gapChecking = /^\w+(\w+)*$/.test(input) // пробелы в начале и в конце строки
 
 
         if (userId && input && gapChecking) {

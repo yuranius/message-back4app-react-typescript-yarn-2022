@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useRef, useState} from 'react';
+import React, { useEffect, useRef, useState} from 'react';
 import Massages from "./Massages";
 import {useDispatch, useSelector} from "react-redux";
 import {
@@ -9,9 +9,10 @@ import {
    isRedirectFromAnyPageAction,
    setCurrentUserAction,
 } from "../../store/messageReducer";
-import {currentDate} from "../../Utilits/getData";
+import {todayDate} from "../../Utilits/getData";
 import {stateMessageType, stateOverType, stateUserType} from "../../types/stateTypes";
 import {UsersWhoHaveMassagesTypes} from "../../types/pageTypes";
+import {setShowMessageAction} from "../../store/overReducer";
 
 
 
@@ -24,6 +25,8 @@ const MessagesContainer = () => {
    const {loading} = useSelector((state:stateOverType) => state.over)
    const [value , setValue] = useState('')
    const dispatch = useDispatch()
+
+
 
    // -modal
    const [show, setShow] = useState(false);
@@ -42,6 +45,7 @@ const MessagesContainer = () => {
            & React.KeyboardEvent<HTMLInputElement>
    ) => {
       if(event.key === 'Enter'){
+         event.preventDefault()
          addMassage()
       } else {
          setValue(event.target.value)
@@ -49,30 +53,22 @@ const MessagesContainer = () => {
    };
 
    let addMassage = () => {
+      const currentDate = `${todayDate().dayName} | ${todayDate().time} | ${todayDate().date}`
+      let gapChecking = /^\w+( \w+)*$/.test(value)
+
+
       if(!value){
-         //return setMassage('Поле не может быть пустым...')
+         return setShowMessageAction({statusMessage: 2, message: 'Поле не может быть пустым'})
       }
-      if (value && userId && currentUser) {
+      if (gapChecking && userId && currentUser) {
          dispatch(AsyncAddMessageActionCreator({message:value, userToId:currentUser.id, userFromId:userId, login: currentUser.login, created_at:currentDate}) );
-         //dispatch(AsyncChangeUsersWhoHaveMessagesAction(currentUser.id))
          dispatch(changeUsersWhoHaveMessagesAction(currentUser.id))
          setValue('')
       } else {
-         //return setMassage('Ошибка!!!')
+         dispatch(setShowMessageAction({statusMessage: 2, message: 'Введите сообщение не содержащие пробелов в начале'}))
+         setValue('')
       }
    };
-
-
-
-
-   //TODO надо разобраться с диспатчем "пустышек"
-
-
-   // useEffect( () => {
-   //    if (!!users[0]) {
-   //       dispatch(setCurrentUserAction(users[0]))
-   //    }
-   // },[users[0]])
 
 
 
@@ -80,14 +76,7 @@ const MessagesContainer = () => {
       if (currentUser.id) {
          dispatch(AsyncGetMessagesUserAction({userId, friendsId: currentUser.id}))
       }
-   },[currentUser]) //
-
-   // useEffect( ()=> {
-   //    if (userId && currentUser.id) {
-   //       dispatch(AsyncGetMessagesUserAction({userId, friendsId: currentUser.id}))
-   //    }
-   // },[])
-
+   },[dispatch, currentUser, userId])
 
 
    useEffect( ()=> {
@@ -97,16 +86,10 @@ const MessagesContainer = () => {
       return () => {
          dispatch(isRedirectFromAnyPageAction(false))
       };
-   },[userId])
+   },[dispatch, userId, isRedirectFromAnyPage])
 
    const userHandler = (user:UsersWhoHaveMassagesTypes) => {
       dispatch(setCurrentUserAction(user))
-
-      console.log( '📌:',user.id,'🌴 🏁')
-
-      // if (userId && currentUser.id) {
-      //    dispatch(AsyncGetMessagesUserAction({userId, friendsId:currentUser.id}))
-      // }
       setShow(false)
    }
 

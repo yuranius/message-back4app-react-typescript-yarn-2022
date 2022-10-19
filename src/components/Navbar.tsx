@@ -1,10 +1,10 @@
-import React, {useEffect} from "react";
+import React from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {Container, Nav, Navbar} from "react-bootstrap";
 import {Link} from "react-router-dom";
 import {stateUserType} from "../types/stateTypes";
 import {ILink} from "../types/pageTypes";
-import {AsyncLogoutUserAction, AsyncSetCheckLoginUserAction} from "../store/authReducer";
+import {AsyncLogoutUserAction} from "../store/authReducer";
 import {deleteShowMessageAction} from "../store/overReducer";
 
 

@@ -1,6 +1,6 @@
 import React from "react";
 import {FoundUsersItem} from "../UsersPage/UsersItem/UsersItem";
-import {Button, ListGroup} from "react-bootstrap";
+import { ListGroup} from "react-bootstrap";
 import {FriendsPropsTypes} from "../../types/pageTypes";
 import {addFriend} from "../../store/usersReducer";
 

@@ -4,14 +4,11 @@ import {useDispatch, useSelector} from "react-redux";
 import {
 	AsyncAddFriendAction,
 	AsyncDeleteFriendAction,
-
 	AsyncGetAllUsersAction,
 } from "../../store/usersReducer";
 import {useShowMessage} from "../../hooks/message.hook";
 import {stateOverType, stateUsersType, stateUserType} from "../../types/stateTypes";
 import {useSendMessageFromUserAndFriendsPage} from "../../hooks/sendMessageFromUserAndFriendsPage.hook";
-import {Simulate} from "react-dom/test-utils";
-import {AsyncAddMessageActionCreator} from "../../store/messageReducer";
 import {setShowMessageAction} from "../../store/overReducer";
 
 
@@ -19,12 +16,12 @@ export const UsersContainer: React.FC = () => {
 	const defaultAvatar = require('../../image/user-img.webp');
 	let {users, pageNumber, pageSize, totalUsers, totalPages} = useSelector((state: stateUsersType) => state.users)
 	let {userId} = useSelector((state: stateUserType) => state.user)
-	let {loading, statusMessage, message} = useSelector((state: stateOverType) => state.over)
+	let {loading, message} = useSelector((state: stateOverType) => state.over)
 	const [searchUser, setSearchUser] = useState('')
 	const [searchTimeout, setSearchTimeout] = useState(false)
 	const dispatch = useDispatch()
 
-	const {showWarning, showSuccess, variant, setShow, show} = useShowMessage()
+	const {showWarning, variant, setShow, show} = useShowMessage()
 
 	const searchChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
 		event.preventDefault()
@@ -42,7 +39,7 @@ export const UsersContainer: React.FC = () => {
 
 			setShow(false)
 			setSearchUser(event.target.value)
-			if (searchTimeout != false) {
+			if (searchTimeout !== false) {
 				// @ts-ignore
 				clearTimeout(searchTimeout)
 			}

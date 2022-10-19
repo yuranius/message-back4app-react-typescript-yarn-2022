@@ -9,7 +9,7 @@ let Paginator:React.FC<PaginatorPropsTypes> = ({totalItemsCount, pageSize, curre
     //- границы для диапазона вывода страниц------------>
 
     //? границы для диапазона вывода страниц ------------------>:
-    let portionCount = Math.ceil(totalItemsCount / portionSize) //? portionSize - размер порции
+    //let portionCount = Math.ceil(totalItemsCount / portionSize) //? portionSize - размер порции
     let [portionNumber, setPortionNumber] = useState(1);
 
     let leftPortionPageNumber = (portionNumber - 1) * portionSize + 1; //* левая граница

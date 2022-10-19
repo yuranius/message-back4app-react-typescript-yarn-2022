@@ -2,6 +2,7 @@ export let todayDate = () => {
     let time = new Date().toLocaleTimeString(navigator.language, {
         hour: "2-digit",
         minute: "2-digit",
+        hour12: false
     });
     let date = new Date().toLocaleDateString();
     let days = ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"];
@@ -12,7 +13,9 @@ export let todayDate = () => {
         date: date,
         dayName: dayName,
     };
+
     return todayDate;
 };
 
 export const currentDate = `${todayDate().dayName} | ${todayDate().time} | ${todayDate().date}`
+
