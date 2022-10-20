@@ -40,6 +40,7 @@ function* getUsersWhoHaveMessagesWorker() {
         const messagesFrom:[] = yield messagesAPI.getUsersWhoHaveMessages('user_from_id', user)
         const messagesTo:[] = yield messagesAPI.getUsersWhoHaveMessages('user_to_id', user)
         yield put (setLoadingProcessAction(false))
+        // попробовать запрос с OR Parse.Query.or(messagesTo, messagesFrom)
         const allMessage:Array<MyUsersType> = [...mapAndPushUserMessagesFromApi(messagesFrom, 'user_to_id'), ...mapAndPushUserMessagesFromApi(messagesTo, 'user_from_id')].reverse()
         const testArr:Array<MyUsersType> = uniqueDataArrayMessages(allMessage)
         yield put (getUsersWhoHaveMessagesAction(testArr))
